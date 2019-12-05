@@ -2,6 +2,9 @@
     --jumbotron-padding-y: 3rem;
 }
 
+.bg-inverse2 {
+    background-color: yellowgreen !important;
+}
 .jumbotron {
     padding-top: var(--jumbotron-padding-y);
     padding-bottom: var(--jumbotron-padding-y);

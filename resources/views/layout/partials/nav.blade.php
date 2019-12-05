@@ -5,9 +5,10 @@
                 <ul class="list-unstyled">
                     @if(\Auth::check())
                         <li><a href="#" class="text-white">My profile</a></li>
-                        <li><a href="#" class="text-white">Add advert</a></li>
+                        <li><a href="{{route('room.update')}}" class="text-white">Add room</a></li>
                     @else
                         <li><a href="{{route('login')}}" class="text-white">Login</a></li>
+                        <li><a href="{{route('register')}}" class="text-white">Register</a></li>
                     @endif
                 </ul>
             </div>

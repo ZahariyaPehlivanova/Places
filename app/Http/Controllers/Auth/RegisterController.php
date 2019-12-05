@@ -3,10 +3,11 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\User;
+use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\View;
 
 class RegisterController extends Controller
 {
@@ -41,32 +42,35 @@ class RegisterController extends Controller
     }
 
     /**
-     * Get a validator for an incoming registration request.
-     *
-     * @param  array  $data
-     * @return \Illuminate\Contracts\Validation\Validator
+     * @return mixed
      */
-    protected function validator(array $data)
+    public function index()
     {
-        return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
-        ]);
+        return View::make('user.register');
     }
 
     /**
-     * Create a new user instance after a valid registration.
-     *
-     * @param  array  $data
-     * @return \App\User
+     * @throws \Illuminate\Validation\ValidationException
      */
-    protected function create(array $data)
+    public function register()
     {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
+       $this->validate(request(), [
+           'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+           'password' => ['required', 'string', 'min:8', 'confirmed'],
+           'confirmPassword' => ['required', 'string', 'min:8', 'confirmed'],
+       ]);
+
+        $user = User::create([
+            'name' => request()->input('name'),
+            'email' => request()->input('email'),
+            'password' => Hash::make(request()->input('password')),
         ]);
+
+        $guard = Auth::guard('web');
+        $guard->getSession()->put($guard->getName(), $user->id);
+        $guard->setUser($user);
+
+        return redirect(route('home'));
+
     }
 }

@@ -24,13 +24,6 @@ class LoginController extends Controller
     use AuthenticatesUsers;
 
     /**
-     * Where to redirect users after login.
-     *
-     * @var string
-     */
-    protected $redirectTo = '/home';
-
-    /**
      * Create a new controller instance.
      *
      * @return void
@@ -45,7 +38,7 @@ class LoginController extends Controller
      */
     public function index()
     {
-        return View::make('login');
+        return View::make('user.login');
     }
 
     /**
@@ -54,12 +47,14 @@ class LoginController extends Controller
     public function login()
     {
         $user = new User([
-            'name' => 'Test',
             'password' => request()->input('password'),
             'email' => request()->input('email'),
         ]);
 
-        Auth::login($user, (bool)request()->input('remember_me'));
+        $guard = Auth::guard('web');
+        $guard->getSession()->put($guard->getName(), 123);
+        $guard->setUser($user);
+
         return redirect(route('home'));
     }
 }

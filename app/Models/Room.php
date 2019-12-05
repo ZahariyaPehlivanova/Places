@@ -8,8 +8,8 @@
 
 namespace App\Models;
 
-use App\Models\Base\AbstractUser;
+use App\Models\Base\AbstractRoom;
 
-class User extends AbstractUser
+class Room extends AbstractRoom
 {
 }
