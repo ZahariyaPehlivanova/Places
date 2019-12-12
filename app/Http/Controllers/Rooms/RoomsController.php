@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Rooms;
 use App\Models\Room;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
 
 class RoomsController extends Controller
@@ -37,6 +38,7 @@ class RoomsController extends Controller
         ]);
 
         $room->fill([
+            'user_id' => Auth::user()->getAuthIdentifier(),
             'title' => request()->input('title'),
             'type' => request()->input('type'),
             'description' => request()->input('description'),

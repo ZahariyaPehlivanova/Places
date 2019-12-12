@@ -7,16 +7,18 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
 
-class Controller extends BaseController
+class UserController extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
-    public function home()
+    public function profile()
     {
-        return View::make('home', [
-            'chunkedRooms' => Room::all()->chunk(3)
+        return View::make('user.profile', [
+            'user' => Auth::user(),
+            'rooms' => Room::where('user_id', Auth::user()->getAuthIdentifier())->get()
         ]);
     }
 }

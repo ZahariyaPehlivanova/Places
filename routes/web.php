@@ -20,6 +20,11 @@ Route::group(['namespace' => 'Auth'], function (\Illuminate\Routing\Router $rout
     $router->post('/login', ['as' => 'login2', 'uses' => 'LoginController@login']);
     $router->get('/register', ['as' => 'register', 'uses' => 'RegisterController@index']);
     $router->post('/register', ['as' => 'register', 'uses' => 'RegisterController@register']);
+    $router->get('/logout', ['as' => 'logout', 'uses' => 'LoginController@logout']);
+});
+
+Route::group([], function (\Illuminate\Routing\Router $router) {
+    $router->get('/profile', ['as' => 'profile', 'uses' => 'UserController@profile']);
 });
 
 Route::group(['namespace' => 'Rooms'], function (\Illuminate\Routing\Router $router) {

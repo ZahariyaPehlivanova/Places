@@ -46,15 +46,21 @@ class LoginController extends Controller
      */
     public function login()
     {
-        $user = new User([
-            'password' => request()->input('password'),
-            'email' => request()->input('email'),
-        ]);
+        $user = User::where('email', request()->input('email'))->first();
 
         $guard = Auth::guard('web');
-        $guard->getSession()->put($guard->getName(), 123);
+        $guard->getSession()->put($guard->getName(), $user->id);
         $guard->setUser($user);
 
+        return redirect(route('home'));
+    }
+
+    /**
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
+    public function logout()
+    {
+        Auth::logout();
         return redirect(route('home'));
     }
 }
