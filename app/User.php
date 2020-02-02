@@ -2,7 +2,7 @@
 
 namespace App;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Models\Room;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -36,4 +36,18 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function isAdmin()
+    {
+        return $this->role == 'admin';
+    }
+
+    /**
+     * @param Room $room
+     * @return bool
+     */
+    public function isRoomOwner($room)
+    {
+        return $room->user_id == $this->getKey();
+    }
 }

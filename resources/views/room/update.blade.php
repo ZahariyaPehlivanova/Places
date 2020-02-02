@@ -9,24 +9,27 @@
 <div class="py-5 bg-light">
 
     <div class="container">
-        <form action="{{route('room.update')}}" method="POST">
+        <form action="{{route('room.update', $room->id ?? null)}}" method="POST">
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
             <div class="form-group">
                 <label>Title</label>
-                <input name="title" type="text" class="form-control" placeholder="Title">
+                <input name="title" value="{{$room->title ?? null}}" type="text" class="form-control" placeholder="Title">
             </div>
-
             <div class="form-group">
                 <label>Type</label>
                 <select class="form-control" name="type">
-                    <option value="hall">Hall</option>
-                    <option value="store">Store</option>
+                    <option value="hall" @if($room->type ?? null == 'hall') selected @endif>
+                        Hall
+                    </option>
+                    <option value="store" @if($room->type ?? null == 'store') selected @endif>
+                        Store
+                    </option>
                 </select>
             </div>
             <div class="form-group">
                 <label>Description</label>
-                <textarea class="form-control" name="description"></textarea>
+                <textarea class="form-control" name="description">{{$room->description ?? null}}</textarea>
             </div>
             <button type="submit" class="btn btn-primary">Save</button>
         </form>

@@ -54,7 +54,7 @@ class RegisterController extends Controller
      */
     public function register()
     {
-       $this->validate(request(), [
+        $this->validate(request(), [
            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
            'password' => ['required', 'string', 'min:8', 'confirmed'],
            'confirmPassword' => ['required', 'string', 'min:8', 'confirmed'],
@@ -71,6 +71,5 @@ class RegisterController extends Controller
         $guard->setUser($user);
 
         return redirect(route('home'));
-
     }
 }

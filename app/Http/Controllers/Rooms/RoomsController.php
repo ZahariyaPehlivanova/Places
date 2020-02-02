@@ -18,7 +18,9 @@ class RoomsController extends Controller
      */
     public function update($roomId = null)
     {
-        return View::make('room.update');
+        return View::make('room.update', [
+            'room' => Room::find($roomId),
+        ]);
     }
 
     /**
@@ -33,7 +35,7 @@ class RoomsController extends Controller
             'type' => ['required', 'string'],
         ]);
 
-        $room = Room::firstOrCreate([
+        $room = Room::firstOrNew([
             'id' => $id,
         ]);
 
@@ -47,5 +49,16 @@ class RoomsController extends Controller
         $room->save();
 
         return redirect(route('home'));
+    }
+
+    /**
+     * @param null $roomId
+     * @return \Illuminate\Contracts\View\View
+     */
+    public function details($roomId)
+    {
+        return View::make('room.details', [
+            'room' => Room::with('owner')->find($roomId),
+        ]);
     }
 }

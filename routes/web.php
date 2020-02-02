@@ -30,4 +30,5 @@ Route::group([], function (\Illuminate\Routing\Router $router) {
 Route::group(['namespace' => 'Rooms'], function (\Illuminate\Routing\Router $router) {
     $router->get('/update-room/{roomId?}', ['as' => 'room.update', 'uses' => 'RoomsController@update']);
     $router->post('/update-room/{roomId?}', ['as' => 'room.update', 'uses' => 'RoomsController@save']);
+    $router->get('/details/{roomId}', ['as' => 'room.details', 'uses' => 'RoomsController@details']);
 });

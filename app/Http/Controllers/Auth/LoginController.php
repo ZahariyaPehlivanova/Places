@@ -48,9 +48,16 @@ class LoginController extends Controller
     {
         $user = User::where('email', request()->input('email'))->first();
 
-        $guard = Auth::guard('web');
-        $guard->getSession()->put($guard->getName(), $user->id);
-        $guard->setUser($user);
+        if (!$user){
+            throw new \Error('Invalid email');
+        }
+
+        if (!Auth::guard('web')->attempt([
+            'email' => request()->input('email'),
+            'password' => request()->input('password'),
+        ], request()->input('remember'))) {
+            throw new \Error('Invalid credentials');
+        }
 
         return redirect(route('home'));
     }

@@ -17,8 +17,11 @@
                                 <p class="card-text">{{$room->description}}</p>
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div class="btn-group">
-                                        <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                                        <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+                                        @if (\Auth::user()->isAdmin() || \Auth::user()->isRoomOwner($room))
+                                            <a href="{{route('room.update', $room->id)}}" class="btn btn-sm btn-outline-secondary">Edit</a>
+                                        @endif
+
+                                            <a href="{{route('room.details', $room->id)}}" class="btn btn-sm btn-outline-secondary">View</a>
                                     </div>
                                     <small class="text-muted">{{$room->type}}</small>
                                 </div>
